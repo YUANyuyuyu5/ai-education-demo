@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI赋能学习助手</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>AI赋能学习助手</h1>
+        <nav>
+            <a href="#" onclick="showPage('preview')">智能预习</a>
+            <a href="#" onclick="showPage('note')">课堂笔记</a>
+            <a href="#" onclick="showPage('review')">错题复习</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- 预习页面 -->
+        <section id="preview-page" class="page active">
+            <h2>智能预习助手</h2>
+            <p>请输入你想要预习的章节或概念：</p>
+            <input type="text" id="preview-input" placeholder="例如：导数与微分">
+            <button onclick="generatePreview()">生成预习提纲</button>
+            <div id="preview-result" class="result"></div>
+        </section>
+
+        <!-- 课堂笔记页面 -->
+        <section id="note-page" class="page">
+            <h2>智能笔记助手</h2>
+            <p>请粘贴或输入课堂录音文字稿：</p>
+            <textarea id="note-input" rows="5" placeholder="粘贴课堂内容..."></textarea>
+            <button onclick="generateNote()">整理笔记</button>
+            <div id="note-result" class="result"></div>
+        </section>
+
+        <!-- 错题复习页面 -->
+        <section id="review-page" class="page">
+            <h2>错题分析助手</h2>
+            <p>请输入你的错题：</p>
+            <textarea id="review-input" rows="5" placeholder="输入错题内容..."></textarea>
+            <button onclick="generateReview()">分析错题</button>
+            <div id="review-result" class="result"></div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
