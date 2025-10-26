@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://darcie-unvitreous-posthypnoticall.ngrok-free.app";
+const API_BASE_URL = "https://darcie-unvitreous-posthypnotically.ngrok-free.dev";
 // 切换页面显示
 function showPage(pageId) {
     document.querySelectorAll('.page').forEach(page => {
