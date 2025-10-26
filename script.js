@@ -10,33 +10,33 @@ function showPage(pageId) {
 // 通用的API调用函数
 async function callAIAPI(question, resultDiv) {
     try {
-        resultDiv.innerHTML = "🧠 AI正在思考，请稍候...";
+        // 先显示友好提示
+        resultDiv.innerHTML = "🧠 AI助手正在启动，请耐心等待1-2分钟...";
         
-        // 使用 await 直接等待 fetch 完成，不需要 do...while
         const response = await fetch(`${API_BASE_URL}/ask`, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                question: question,
-                max_length: 300
-            })
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({question: question, max_length: 300})
         });
+        
+        // 友好处理模型加载中的状态
+        if (response.status === 503) {
+            resultDiv.innerHTML = "⏳ 模型加载即将完成，请稍等片刻后重试...";
+            return;
+        }
         
         if (!response.ok) {
             throw new Error(`网络错误: ${response.status}`);
         }
         
-        // 修正：冒号改为等号
+        // 正常返回AI答案
         const data = await response.json();
         resultDiv.innerHTML = data.answer;
         
     } catch (error) {
-        console.error("API调用错误:", error);
-        resultDiv.innerHTML = `⚠️ 抱歉,AI服务暂时不可用。错误信息: ${error.message}`;
+        resultDiv.innerHTML = "⚠️ 服务暂时不稳定，请刷新页面重试";
     }
-    
+}
     // 删除多余的 return resultDiv; 因为这不是必要的
 }
 // 修改后的函数 - 智能预习
@@ -59,3 +59,4 @@ async function generateReview() {
     const resultDiv = document.getElementById('review-result');
     await callAIAPI(`请分析以下错题并提供解答：${input}`, resultDiv);
 }
+
