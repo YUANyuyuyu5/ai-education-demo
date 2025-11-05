@@ -1,3 +1,4 @@
+HEAD
 // 全局变量
 const API_BASE_URL = "https://您的域名.ngrok-free.app"; // 暂时留空，先用模拟数据
 
@@ -74,21 +75,4 @@ function generateReview() {
         resultDiv.innerHTML = "请输入错题内容";
         return;
     }
-    
-    resultDiv.innerHTML = "🔄 AI正在分析错题...";
-    
-    setTimeout(() => {
-        const response = simulateAIResponse(input, 'review');
-        resultDiv.innerHTML = response;
-    }, 1500);
 }
-
-// 初始化函数
-function init() {
-    console.log("AI教育助手初始化完成");
-    // 默认显示预习页面
-    showPage('preview');
-}
-
-// 页面加载完成后初始化
-document.addEventListener('DOMContentLoaded', init);
