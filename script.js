@@ -1,85 +1,94 @@
-const API_BASE_URL = "https://darcie-unvitreous-posthypnotically.ngrok-free.dev ";
+// 全局变量
+const API_BASE_URL = "https://您的域名.ngrok-free.app"; // 暂时留空，先用模拟数据
 
-// 切换页面显示
+// 页面切换功能
 function showPage(pageId) {
+    // 隐藏所有页面
     document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
     });
+    
+    // 显示目标页面
     document.getElementById(pageId + '-page').classList.add('active');
 }
 
-// 通用的API调用函数
-async function callAIAPI(question, resultDiv) {
-    try {
-        // 先显示友好提示
-        resultDiv.innerHTML = "AI助手正在启动,请耐心等待1-2分钟...";
+// 模拟AI响应函数
+function simulateAIResponse(question, type) {
+    // 根据问题类型生成不同的回答模板
+    const templates = {
+        'preview': `📚 **预习指南：${question}**\n\n1. **核心概念**：以下是医用物理学第一章《刚体力学基础》的预习提纲，旨在帮助你快速掌握核心概念和公式框架：理解基本定义和原理\n2. **重点公式**：掌握关键数学表达式角量与线量的关系
+线速度与角速度v=rω,切向加速度与角加速度at=ra,法向加速度与角速度an=rω,ω=ω0+at 2\n3. **临床应用**：了解在医学中的实际用途\n4. **学习建议**:建议学习时长30-45分钟,重点理解转动定律和角动量守恒的物理意义，结合例题分析,熟悉转动惯量的计算方法，掌握平行轴定理的应用场景,对比质点与刚体的运动规律，构建系统化的力学框架`,
         
-        const response = await fetch(`${API_BASE_URL}/ask`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                question: question,
-                max_length: 300
-            })
-        });
+        'note': `✍️ **课堂笔记：${question}**\n\n## 重点总结:刚体运动分析：平动与转动的特性及实例讲解了刚体运动的两种基本形式——平动与转动，强调平动不等同于直线运动，通过激光笔转动的例子加以说明。介绍了转动的分类，包括定轴转动和非定轴转动，以水车、门、风扇为例，阐述了定轴转动的概念。最后，结合汽车运动实例，展示了平动与转动的结合。\n• 物理学中直线运动与转动运动类比及公式推导通过对比直线运动与转动运动中的物理量，如位移、速度、加速度、力等，将其分别对应到转动过程中的角度、角速度、角加速度、力矩等概念，详细推导了动能、牛顿第二定律、动量守恒定律在转动中的表达形式。强调了转动惯量及其影响因素，并介绍了匀变速转动的运动规律。最后，预告了下一章节将探讨流体的运动。`,
         
-        // 友好处理模型加载中的状态
-        if (response.status === 503) {
-            resultDiv.innerHTML = "模型加载即将完成，请稍等片刻后重试...";
-            return;
-        }
-        
-        if (!response.ok) {
-            throw new Error(`网络错误: ${response.status}`);
-        }
-        
-        // 正常返回AI答案
-        const data = await response.json();
-        resultDiv.innerHTML = data.answer;
-        
-    } catch (error) {
-        console.error("API调用错误:", error);
-        resultDiv.innerHTML = "AI服务暂时不稳定,请刷新页面重试";
-    }
+        'review': `🔍 **错题分析：${question}**\n\n### 解题步骤\n1. 答案:C;解析:转动惯量(J0)刚体转动惯性大小的量度。它的大小由刚体的总质量、质量的分布（即形状）以及转轴的位置共同决定。例如，同一细棒绕通过其中心与通过其一端的轴转动，转动惯量不同。`
+    };
+    
+    return templates[type] || `🤖 AI回答:关于"${question}"，这是一个很好的问题...`;
 }
 
-// 预习功能函数
-async function generatePreview() {
+// 预习功能
+function generatePreview() {
     const input = document.getElementById('preview-input').value;
     const resultDiv = document.getElementById('preview-result');
     
-    if (!input) {
+    if (!input.trim()) {
         resultDiv.innerHTML = "请输入预习内容";
         return;
     }
     
-    await callAIAPI(`请为以下医用物理学概念提供预习指导: ${input}`, resultDiv);
+    resultDiv.innerHTML = "🔄 AI正在生成预习提纲...";
+    
+    
+    // 模拟AI思考时间
+    setTimeout(() => {
+        const response = simulateAIResponse(input, 'preview');
+        resultDiv.innerHTML = response;
+    }, 1500);
 }
 
-// 课堂笔记功能函数
-async function generateNote() {
+// 笔记功能
+function generateNote() {
     const input = document.getElementById('note-input').value;
     const resultDiv = document.getElementById('note-result');
     
-    if (!input) {
+    if (!input.trim()) {
         resultDiv.innerHTML = "请输入课堂内容";
         return;
     }
     
-    await callAIAPI(`请将以下课堂内容整理成结构化笔记: ${input}`, resultDiv);
+    resultDiv.innerHTML = "🔄 AI正在整理笔记...";
+    
+    setTimeout(() => {
+        const response = simulateAIResponse(input, 'note');
+        resultDiv.innerHTML = response;
+    }, 1500);
 }
 
-// 错题复习功能函数
-async function generateReview() {
+// 复习功能
+function generateReview() {
     const input = document.getElementById('review-input').value;
     const resultDiv = document.getElementById('review-result');
     
-    if (!input) {
+    if (!input.trim()) {
         resultDiv.innerHTML = "请输入错题内容";
         return;
     }
     
-    await callAIAPI(`请分析以下错题并提供解答: ${input}`, resultDiv);
+    resultDiv.innerHTML = "🔄 AI正在分析错题...";
+    
+    setTimeout(() => {
+        const response = simulateAIResponse(input, 'review');
+        resultDiv.innerHTML = response;
+    }, 1500);
 }
+
+// 初始化函数
+function init() {
+    console.log("AI教育助手初始化完成");
+    // 默认显示预习页面
+    showPage('preview');
+}
+
+// 页面加载完成后初始化
+document.addEventListener('DOMContentLoaded', init);
