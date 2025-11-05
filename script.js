@@ -75,4 +75,10 @@ function generateReview() {
         resultDiv.innerHTML = "请输入错题内容";
         return;
     }
+     resultDiv.innerHTML = "🔄 AI正在整理笔记...";
+
+      setTimeout(() => {
+        const response = simulateAIResponse(input, 'review');
+        resultDiv.innerHTML = response;
+    }, 1500);
 }
