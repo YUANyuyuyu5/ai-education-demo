@@ -1,5 +1,5 @@
 // 恢复为调用真实API的代码
-const API_BASE_URL = "https://您的ngrok地址.ngrok-free.app"; // 需要更新为实际地址
+const API_BASE_URL = " https://darcie-unvitreous-posthypnotically.ngrok-free.dev"; // 需要更新为实际地址
 
 // 恢复真实的API调用函数
 async function callAIAPI(question, resultDiv, type = 'preview') {
